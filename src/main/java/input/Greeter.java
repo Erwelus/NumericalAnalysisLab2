@@ -34,7 +34,7 @@ public class Greeter {
         System.out.println("Выберите уравнение, корень которого требуется вычислить:");
         System.out.println("[ 1 ]: x^(3) −3.125x^(2) −3.5x +2.458");
         System.out.println("[ 2 ]: 5x^(3) -x^(2) -20x +4");
-        System.out.println("[ 3 ]: sin(x) + 1");
+        System.out.println("[ 3 ]: sin(x) + 0.5");
 
         holder.setFuncNum(readNumber(0, 4));
 

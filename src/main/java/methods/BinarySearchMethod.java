@@ -32,27 +32,24 @@ public class BinarySearchMethod implements Method{
 
     @Override
     public double count() {
-        double answer = -1;
+        double answer;
+        drawChart.draw(a, b, func);
 
         while ( (b - a) > e) {
-            double x = (a + b) / 2;
+            answer = (a + b) / 2;
 
-            if (Math.abs(func.count(x))<= e){
-                answer = x;
+            printer.printIteration(++iterations, a, b, answer, func.count(a), func.count(b), func.count(answer));
+            if (Math.abs(func.count(answer))<= e){
                 break;
             }
-
-
-            if (sign(func.count(a)) != sign(func.count(x))){
-                b = x;
-            }else if (sign(func.count(x)) != sign(func.count(b))){
-                a = x;
+            if (sign(func.count(a)) != sign(func.count(answer))){
+                b = answer;
+            }else if (sign(func.count(answer)) != sign(func.count(b))){
+                a = answer;
             }
-            printer.printIteration(++iterations, a, b, x, func.count(a), func.count(b), func.count(x));
-            answer = x;
-
         }
-        drawChart.draw(a, b, func);
+        answer = (a + b) / 2;
+        printer.printIteration(++iterations, a, b, answer, func.count(a), func.count(b), func.count(answer));
         return answer;
     }
 

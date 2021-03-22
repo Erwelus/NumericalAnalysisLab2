@@ -8,6 +8,6 @@ public class ConsolePrinterSecant implements PrinterSecant {
         System.out.println("x[i]: "+cur);
         System.out.println("x[i+1]: "+next);
         System.out.println("f(x[i+1]): "+fnext);
-        System.out.println("|x[i+1] - x[i]|: "+Math.abs(next - cur));
+        System.out.println("|x[i+1] - x[i]|: "+Math.abs(next - cur)+"\n");
     }
 }

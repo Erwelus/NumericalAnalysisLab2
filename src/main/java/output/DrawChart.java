@@ -25,6 +25,11 @@ public class DrawChart {
         int width = 1920;
         int height = 1080;
 
+
+
+
+
+
         try {
             ChartUtils.saveChartAsJPEG(new File("src/main/resources/ans.jpeg"), lineChart, width, height);
         } catch (IOException e) {

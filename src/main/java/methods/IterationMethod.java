@@ -1,5 +1,6 @@
 package main.java.methods;
 
+import com.sun.scenario.effect.impl.state.AccessHelper;
 import main.java.functions.Functional;
 import main.java.output.DrawChart;
 import main.java.output.PrinterIterations;
@@ -14,6 +15,7 @@ public class IterationMethod implements Method {
     private int iterations=0;
     private double lambda;
     private DrawChart drawChart;
+    private double q;
 
     public IterationMethod(double a, double b, double e, Functional func, PrinterIterations printer, DrawChart drawChart) {
         this.a = a;
@@ -29,21 +31,17 @@ public class IterationMethod implements Method {
     public double count() {
         double res = a;
         setLambda();
+        countQ();
         double prev;
+        if ((q>=1)||(Math.abs(countFiDerivative(a))>q)||(Math.abs(countFiDerivative(b))>q)||(Math.abs(countFiDerivative((a+b)/2))>q)) {
+            return -1;
+        }
         do {
             prev = res;
             res = countFi(prev);
-            if (!checkConvergence(prev)){
-                iterations=0;
-                break;
-            }
             printer.printIteration(++iterations, prev, res, countFi(res), func.count(res));
-            if (res > b || res < a){
-                iterations =0;
-                break;
-            }
-        } while (Math.abs(res - prev) > e);
-        drawChart.drawForSimpleIteration(a, b, lambda, func);
+        } while (check(res, prev));
+        drawChart.draw(a, b, func);
         return res;
     }
 
@@ -62,6 +60,26 @@ public class IterationMethod implements Method {
     }
 
     private boolean checkConvergence(double x){
-        return 1 + lambda*func.countFirstDerivative(x) < 1;
+        return countFiDerivative(x) < 1;
+    }
+
+    private double countFiDerivative(double x){
+        return 1 + lambda*func.countFirstDerivative(x);
+    }
+
+    private void countQ(){
+        q = Math.max(Math.abs(countFiDerivative(a)), Math.abs(countFiDerivative(b)));
+    }
+
+    private boolean check(double res, double prev){
+        if (!checkQ()){
+            return Math.abs(res - prev) > e;
+        }else{
+            return Math.abs(res - prev) > e*(1-q)/q;
+        }
+    }
+
+    private boolean checkQ(){
+        return q > 0.5;
     }
 }
